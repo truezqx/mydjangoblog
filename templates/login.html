@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form action="{% url 'login' %}" method="post">
+	{% csrf_token %}
+	    <p><input type="text" name="username" placeholder="username" required/></p>
+	    <p><input type="password" name="password" placeholder="password" required/></p>
+	    <input type="hidden" name="source_url" value="{{ request.META.HTTP_REFERER }}">
+	    <p><button type="submit">登陆</button></p>
+    </form>
+</body>
+</html>

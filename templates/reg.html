@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="{% url 'reg' %}" method="post">
+	{% csrf_token %}
+	<p>用户:{{ reg_form.username }}</p>
+	<p>密码:{{ reg_form.password }}</p>
+	<input type="hidden" name="source_url" value="{{ request.META.HTTP_REFERER }}">
+	<p><input type="submit" value="注册"></p>
+	</form>
+</body>
+</html>

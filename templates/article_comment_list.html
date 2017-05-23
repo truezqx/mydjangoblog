@@ -1,0 +1,14 @@
+
+<div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-header">
+        <br/>
+            <h3 class="uk-panel-title">评论排行</h3>
+            <ul class="uk-list uk-list-line">            	
+            	<ol>
+            	{% for article in article_comment_list %}
+                <li><a href="/article/?id={{ article.id}}">{{ article.title | slice:':15' }}({{ article.comment_set.count}})</a></li>
+                {% endfor %}
+                </ol>                           
+            </ul>
+        </div>
+    </div>

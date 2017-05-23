@@ -1,0 +1,32 @@
+{% extends '__base__.html' %}
+{% block title %}博客{% endblock %}
+
+{% block beforehead %}
+
+<script>
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-3-4">
+    	{% for article in articles %}
+        <article class="uk-article">
+            <h2><a href="/article/?id={{ article.id }} " name='a'>{{ article.title }}</a></h2>
+            <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d' }}</p>
+            <p>{{ article.content | safe }}</p>
+            
+        </article>
+        <p>点击次数:{{ article.click_count }}</p>{% for tag in article.tag.all %}
+        <p>标签:{{ tag.name }}</p>{% endfor %}<p>分类:{{ article.category.name }}</p>
+        <p>评论:{{ article.comment_set.all.count}}</p>
+        <hr class="uk-article-divider">
+    	{% endfor %}
+	    {% include 'pagination.html' %} 
+    </div>
+    	
+
+		
+	
+{% endblock %}

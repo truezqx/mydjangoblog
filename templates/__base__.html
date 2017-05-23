@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    {% block meta %}<!-- block meta  -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - blog Python Webapp</title>
+    <link rel="stylesheet" href="/static/css/uikit.min.css">
+    <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
+    <link rel="stylesheet" href="/static/css/awesome.css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
+    <script src="/static/js/sticky.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/awesome.js"></script>
+    {% block beforehead %}<!-- before head  -->{% endblock %}
+</head>
+<body>
+    <nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
+        <div class="uk-container uk-container-center">
+            <a href="/blog" class="uk-navbar-brand">Blog</a>
+            <ul class="uk-navbar-nav">
+                <li data-url="blogs"><a href="/blog"><i class="uk-icon-home"></i>主页</a></li>
+                <li><a target="_blank" href=""><i class="uk-icon-book"></i>B</a></li>
+                <li><a target="_blank" href=""><i class="uk-icon-code"></i>C</a></li>
+            </ul>
+            <div class="uk-navbar-flip">
+                <ul class="uk-navbar-nav">
+
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="#0"><i class="uk-icon-user"></i></a>
+                        <div class="uk-dropdown uk-dropdown-navbar">
+                            <ul class="uk-nav uk-nav-navbar">
+                                <li><a href="/logout"><i class="uk-icon-sign-out"></i> 登出</a></li>
+                                <li><a href=""><i class=""></i>用户名:{{ request.user }}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+					
+                    <li><a href="/login"><i class="uk-icon-sign-in"></i> 登陆</a></li>
+                    <li><a href="/reg"><i class="uk-icon-edit"></i> 注册</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="uk-container uk-container-center">
+        <div class="uk-grid">
+            <!-- content -->
+            {% block content %}
+            {% endblock %}
+            <!-- // content -->
+          	<div class="uk-width-medium-1-4">
+	        	<div class="uk-panel uk-panel-header">
+	        	</div>
+    		</div>
+    		{% include 'links.html' %}
+    		{% include 'userinfo.html' %}
+    		{% include 'article_comment_list.html' %}
+    		{% include 'tagcloud.html' %}
+    		{% include 'articlelist.html' %}
+    	</div>
+    </div>
+
+    <div class="uk-margin-large-top" style="background-color:#eee; border-top:1px solid #ccc;">
+        <div class="uk-container uk-container-center uk-text-center">
+            <div class="uk-panel uk-margin-top uk-margin-bottom">
+             
+               
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

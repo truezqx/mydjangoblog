@@ -1,0 +1,12 @@
+<div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-header">
+        <br/>
+            <h3 class="uk-panel-title">标签云</h3>
+            <ul class="uk-list uk-list-line">
+            	{% for tag in tag_list%}
+                <a href="{% url 'tag_article' %}?tag={{ tag.id}}">{{ tag.name }}</a>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
