@@ -40,7 +40,7 @@ def getpage(request,article_list):
 def index(request):
                    
     #最新文章显示并分页
-    article_list = Article.objects.all()
+    article_list = Article.objects.all().order_by('-id')
     articles = getpage(request,article_list)
     return render(request,'blogs.html',locals())
 
