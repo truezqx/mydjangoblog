@@ -4,7 +4,7 @@
 from rest_framework import serializers
 from blog.models import *
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     
     user = serializers.ReadOnlyField(source='user.username')
     class Meta:
@@ -25,11 +25,12 @@ class ArticleSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         return serializers.ModelSerializer.update(self, instance, validated_data)
     
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     
-    articles = serializers.PrimaryKeyRelatedField(many=True, queryset=Article.objects.all())
+    articles = serializers.HyperlinkedRelatedField(many=True, view_name='article-detail',read_only=True)
     
     class Meta:
         model = User
         fields = ('id','username','articles')
+        #fields = '__all __'
         

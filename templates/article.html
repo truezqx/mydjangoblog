@@ -32,7 +32,7 @@
         </div>
         <hr/>
         {% if not request.user.is_authenticated %}
-        <div>还没登陆？可以登陆后再评论哦<a href="{% url 'login' %}">登录</a></div>
+        <div>还没登陆？可以登陆后发表观点哦<a href="{% url 'login' %}">&nbsp;登录</a></div>
         {% else %}
         <div><b>{{ request.user }}</b>,快来发表评论吧！</div>
         {% endif %}

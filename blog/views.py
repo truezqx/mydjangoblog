@@ -12,6 +12,8 @@ from blog.serializers import ArticleSerializer,UserSerializer
 from rest_framework import generics
 from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
+from rest_framework import viewsets
+
 # Create your views here.
 
 def global_setting(request):
@@ -94,7 +96,7 @@ def comment_post(request):
     
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
-        comment = Comment.objects.create(content=comment_form.cleaned_data['comment_content'],
+        Comment.objects.create(content=comment_form.cleaned_data['comment_content'],
                                          article_id=comment_form.cleaned_data['article'],
                                          username=comment_form.cleaned_data['username'])
     return redirect(request.META['HTTP_REFERER'])
@@ -156,12 +158,14 @@ def do_reg(request):
     return render(request,'reg.html',locals())
 
 #序列化
+
+'''
 class JSONResponse(HttpResponse):
     def __init__(self,data,**kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
         super(JSONResponse,self).__init__(content,**kwargs)
-'''
+
 #初始的方法
 @api_view(['GET','POST'])
 @csrf_exempt        
@@ -270,7 +274,8 @@ class articledetail(mixins.RetrieveModelMixin,
         
         return self.destroy(request, *args, **kwargs) 
 '''
-#最终的样子如此简洁！
+'''
+#更更更简洁
 class articlelist(generics.ListCreateAPIView):
     
     queryset = Article.objects.all()
@@ -299,3 +304,21 @@ class UserDetail(generics.RetrieveAPIView):
     
     queryset = User.objects.all()
     serializer_class = UserSerializer
+'''    
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer    
+class ArticleViewSet(viewsets.ModelViewSet):
+    
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+    
+    
