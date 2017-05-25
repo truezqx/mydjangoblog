@@ -4,7 +4,8 @@ from blog.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from blog.myviews import *
 from rest_framework.routers import DefaultRouter
-
+from django.conf import settings
+from blog.upload import upload_image
 urlpatterns = [
     url(r'^archive/$',archive, name='archive'),
     url(r'^blog/$',index, name='index'),
@@ -48,6 +49,12 @@ urlpatterns += [
     url(r'^',include(router.urls)),
     
 ]
+urlpatterns += [
+    url(r'^uploads/(?P<path>.*)$',\
+        'django.views.static.serve',\
+        {'document_root':settings.MEDIA_ROOT,}),
+    url(r'^admin/upload/(?P<dir_name>[^/]+)$',upload_image,name='upload_image')
+    ]
 '''
     url(r'^articles/$',articlelist.as_view(),name='article-list'),
     url(r'^articles/(?P<pk>(\d+))/$',articledetail.as_view(),name='article-detail'),

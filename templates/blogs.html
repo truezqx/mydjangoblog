@@ -13,7 +13,7 @@
     <div class="uk-width-medium-3-4">
     	{% for article in articles %}
         <article class="uk-article">
-            <h2><a href="/article/?id={{ article.id }} " name='a'>{{ article.title }}</a></h2>
+            <h2><a href="/article/?id={{ article.id }}">{{ article.title }}</a></h2>
             <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d' }}</p>
             <p>{{ article.content | safe }}</p>
             

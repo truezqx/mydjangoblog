@@ -68,8 +68,10 @@ def tag_to_article(request):
 def article(request):
        
     id = request.GET.get('id',None)
+    
     try:
         article = Article.objects.get(pk=id)
+        ClickCount(request,article,id)
     except Article.DoesNotExist:
         return HttpResponse('没有这个文章')    
     
@@ -90,6 +92,12 @@ def article(request):
             comment_list.append(comment)
     
     return render(request,'article.html',locals())
+
+#点击次数
+def ClickCount(request,article,id):
+    click_count = article.click_count + 1
+    Article.objects.filter(pk=id).update(click_count=click_count)
+    
 
 #添加评论
 def comment_post(request):

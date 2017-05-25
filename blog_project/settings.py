@@ -113,6 +113,8 @@ WEIBO_SINA='XXXXX'
 #自定义用户model
 AUTH_USER_MODEL = 'blog.User'
 
+MEDIA_URL='/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

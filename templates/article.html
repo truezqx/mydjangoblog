@@ -13,24 +13,14 @@
 
     <div class="uk-width-medium-3-4">
         <article class="uk-article">
-            <h2><a href="/article/?id={{ article.id }}" name='a'>{{ article.title }}</a></h2>
+            <h2>{{ article.title }}</h2>
             <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d' }}</p>
-            <p>{{ article.content }}</p>
+            <p>{{ article.content|safe }}</p>
             <p><a href="/blog/">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
         </article>
-        <p>点击次数:{{ article.click_count }}</p>{% for tag in article.tag.all %}
+        <p name='click_count'>点击次数:{{ article.click_count }}</p>{% for tag in article.tag.all %}
         <p>标签:{{ tag.name }}</p>{% endfor %}<p>分类:{{ article.category.name }}</p>
-        <hr/>
-        <div class='comment'>
-        	<p>评论：</p>
-        	{% for comment in comment_list %}
-        	<p>{{ comment.username}}:{{ comment.content}}</p>
-        		{% for children_comment in comment.children_comment %}
-        		<p>&nbsp;&nbsp;&nbsp;{{ comment.username}}:{{ children_comment.content }}</p>
-        		{% endfor %}
-        	{% endfor %}
-        </div>
-        <hr/>
+        {% include 'comment.html' %}
         {% if not request.user.is_authenticated %}
         <div>还没登陆？可以登陆后发表观点哦<a href="{% url 'login' %}">&nbsp;登录</a></div>
         {% else %}
