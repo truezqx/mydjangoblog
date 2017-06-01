@@ -8,7 +8,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.hashers import make_password
 from blog.forms import *
 from rest_framework.renderers import JSONRenderer
-from blog.serializers import ArticleSerializer,UserSerializer
+from blog.serializers import *
 from rest_framework import generics
 from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
@@ -316,7 +316,7 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 '''    
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -331,5 +331,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
+class CommentViewSet(viewsets.ModelViewSet):
     
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+      
+class TagViewSet(viewsets.ModelViewSet):
     
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer   
+    
+class CategoryViewSet(viewsets.ModelViewSet):
+    
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer  
