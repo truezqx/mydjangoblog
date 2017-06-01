@@ -13,6 +13,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -27,6 +28,7 @@ def global_setting(request):
     comment_count_list = Comment.objects.values('article').annotate(comment_count=Count('article')).order_by('-comment_count')
     article_comment_list = [Article.objects.get(pk=comment['article']) for comment in comment_count_list]
     return locals()
+
 #分页
 def getpage(request,article_list):
     paginator = Paginator(article_list,3)   
@@ -118,6 +120,7 @@ def do_logout(request):
     return redirect(request.META['HTTP_REFERER'])
 
 #登陆
+
 def do_login(request):
     try:
         if request.method =='POST':
@@ -314,11 +317,11 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 '''    
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    This viewset automatically provides `list` and `detail` actions.
-    """
+
     queryset = User.objects.all()
-    serializer_class = UserSerializer    
+    serializer_class = UserSerializer
+    
+
 class ArticleViewSet(viewsets.ModelViewSet):
     
     queryset = Article.objects.all()

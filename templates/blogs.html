@@ -18,8 +18,11 @@
             <p>{{ article.content | safe }}</p>
             
         </article>
-        <p>点击次数:{{ article.click_count }}</p>{% for tag in article.tag.all %}
-        <p>标签:{{ tag.name }}</p>{% endfor %}<p>分类:{{ article.category.name }}</p>
+        <p>点击次数:{{ article.click_count }}</p>
+        {% for tag in article.tag.all %}
+        <p>标签:{{ tag.name }}</p>
+        {% endfor %}
+        <p>分类:{{ article.category.name }}</p>
         <p>评论:{{ article.comment_set.all.count}}</p>
         <hr class="uk-article-divider">
     	{% endfor %}

@@ -16,7 +16,7 @@
             <h2>{{ article.title }}</h2>
             <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d' }}</p>
             <p>{{ article.content|safe }}</p>
-            <p><a href="/blog/">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
+            <p><a href="{% url 'index' %}">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
         </article>
         <p name='click_count'>点击次数:{{ article.click_count }}</p>{% for tag in article.tag.all %}
         <p>标签:{{ tag.name }}</p>{% endfor %}<p>分类:{{ article.category.name }}</p>
