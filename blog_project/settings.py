@@ -116,8 +116,8 @@ CACHES = {
         }
     }
 }
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+#SESSION_CACHE_ALIAS = 'default'
 
 #网站的基本信息
 SITE_NAME='周千翔的个人博客'

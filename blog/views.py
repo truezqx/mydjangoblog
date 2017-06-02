@@ -14,6 +14,7 @@ from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -206,7 +207,7 @@ def article_detail(request,pk,format=None):
         return Response(ser.data)
 '''
 '''
-#更优雅(使用类)
+#使用类
 class articlelist(APIView):
     
     def get(self,request,format=None):
@@ -249,7 +250,7 @@ class articledetail(APIView):
 ''' 
 
 '''
-#更精简(使用mixins简化代码)
+#使用mixins简化代码
 class articlelist(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
@@ -324,6 +325,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ArticleViewSet(viewsets.ModelViewSet):
     
+    print(request.data)
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
