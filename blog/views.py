@@ -14,6 +14,7 @@ from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
@@ -325,7 +326,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ArticleViewSet(viewsets.ModelViewSet):
     
-    print(request.data)
+    #print(request.data)
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
@@ -333,6 +334,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
+
 class CommentViewSet(viewsets.ModelViewSet):
     
     queryset = Comment.objects.all()
@@ -347,3 +349,22 @@ class CategoryViewSet(viewsets.ModelViewSet):
     
     queryset = Category.objects.all()
     serializer_class = CategorySerializer  
+
+class ArticleList(generics.ListAPIView):
+    
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    filter_backends = (DjangoFilterBackend,)
+
+    def get_queryset(self):
+        '''
+        value = self.kwargs.get('value','')
+        queryset = Article.objects.filter(title__icontains=value)
+        return queryset
+        '''
+        queryset = Article.objects.all()
+        value = self.request.query_params.get('value', None)
+        if value is not None:
+            queryset = queryset.filter(title__icontains=value)
+        return queryset
+    

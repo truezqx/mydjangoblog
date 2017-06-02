@@ -150,4 +150,23 @@ class Ad(models.Model):
     def __str__(self):
         
         return self.title
-                                          
+
+
+class Hellspawn(models.Model):
+    rarity_choice = [(1, 'SSR'),
+                     (2, 'SR'),
+                     (3, 'R'),
+                     (4, 'N')]
+    create_time = models.DateTimeField(auto_now_add=True)
+    modify_time = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=20)
+    name_pinyin = models.CharField(max_length=128, default='')
+    name_abbr = models.CharField(max_length=10, default='')
+    rarity = models.IntegerField(choices=rarity_choice, default=4)
+    picture = models.CharField(max_length=128, null=True, blank=True)
+    icon = models.CharField(max_length=128, null=True, blank=True)
+    clue1 = models.CharField(max_length=30, null=True, blank=True)
+    clue2 = models.CharField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return '{0}-{1}'.format(self.name, self.rarity_choice[self.rarity - 1][1])                                          

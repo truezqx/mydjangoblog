@@ -40,12 +40,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'blog',
     'rest_framework',
+    'django_filters',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -133,5 +134,6 @@ STATICFILES_DIRS = (
     )
 
 REST_FRAMEWORK = {
-        'PAGINATE_BY':10
+        'PAGINATE_BY':10,
+        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     }
