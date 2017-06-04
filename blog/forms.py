@@ -25,7 +25,13 @@ class CommentForm(forms.Form):
     
     
     comment_content = forms.CharField(widget=forms.Textarea(attrs={'id':'comment_content','required':'required',
-                                                                   'cols':'35','rows':'10'}),
+                                                                   'cols':'110','rows':'10'}),
                                                                    error_messages={'required':'评论不能为空'})
     article = forms.CharField(widget=forms.HiddenInput)
-    username= forms.CharField(widget=forms.HiddenInput)      
+    username= forms.CharField(widget=forms.HiddenInput)     
+
+class SearchForm(forms.Form):
+    
+    search_value = forms.CharField(widget=forms.Textarea(attrs={'id':'search_value','required':'required',
+                                                                   'cols':'50','rows':'1','style':"resize:none"}),
+                                                                   error_messages={'required':'内容不能为空'})  

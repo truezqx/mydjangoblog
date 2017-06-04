@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7h*2asywl0h4+j+hn9ck4pl8trzoaw@(n03-bl21p_^fups+jd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'blog',
     'rest_framework',
-    'django_filters',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,8 +84,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',
         'USER': 'root',
-        'PASSWORD': 'a64729891',
-        'HOST':'localhost',
+        'PASSWORD': '1qaz@WSX',
+        'HOST':'rm-wz98qphr914lic996o.mysql.rds.aliyuncs.com',
         'PORT':'3306',
     }
 }
@@ -96,7 +95,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -126,14 +125,14 @@ WEIBO_SINA='XXXXX'
 #自定义用户model
 AUTH_USER_MODEL = 'blog.User'
 
-MEDIA_URL='/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL='/uploads/'#获取图片url上下文根
+MEDIA_ROOT = './uploads/'#保存图片路径
 STATIC_URL = '/static/'
+STATIC_ROOT = './static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     )
 
 REST_FRAMEWORK = {
         'PAGINATE_BY':10,
-        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     }

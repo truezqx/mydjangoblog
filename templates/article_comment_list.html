@@ -6,7 +6,7 @@
             <ul class="uk-list uk-list-line">            	
             	<ol>
             	{% for article in article_comment_list %}
-                <li><a href="/article/?id={{ article.id}}">{{ article.title | slice:':15' }}({{ article.comment_set.count}})</a></li>
+                <li><a href="/article/?id={{ article.id}}">{{ article.title | slice:':10' }}({{ article.comment_set.count}})</a></li>
                 {% endfor %}
                 </ol>                           
             </ul>

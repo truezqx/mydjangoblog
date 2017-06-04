@@ -14,16 +14,18 @@
     	{% for article in articles %}
         <article class="uk-article">
             <h2><a href="/article/?id={{ article.id }}">{{ article.title }}</a></h2>
-            <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d' }}</p>
-            <p>{{ article.content | safe }}</p>
-            
-        </article>
-        <p>点击次数:{{ article.click_count }}</p>
-        {% for tag in article.tag.all %}
-        <p>标签:{{ tag.name }}</p>
-        {% endfor %}
-        <p>分类:{{ article.category.name }}</p>
-        <p>评论:{{ article.comment_set.all.count}}</p>
+	    <h6><p>标签:{% for tag in article.tag.all %}&nbsp;{{ tag.name }}&nbsp;{% endfor %}</p></h6>
+            <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d H:i:s' }}</p>
+	    <hr>
+            <p>{{ article.content | safe | truncatewords_html:30 }}</p>
+	</article>
+	<br/>
+	<div>
+		点击次数:<a>{{ article.click_count }}</a>&nbsp;&nbsp;
+        	分类:<a>{{ article.category.name }}</a>&nbsp;&nbsp;
+        	评论:<a>{{ article.comment_set.all.count}}</a>&nbsp;&nbsp;
+
+	</div>
         <hr class="uk-article-divider">
     	{% endfor %}
 	    {% include 'pagination.html' %} 

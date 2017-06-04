@@ -14,9 +14,8 @@ from rest_framework import permissions
 from blog.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
-from django_filters.rest_framework import DjangoFilterBackend
 from django.views.generic import ListView, DetailView
-
+from django.db.models import Q
 # Create your views here.
 
 def global_setting(request):
@@ -25,6 +24,7 @@ def global_setting(request):
     archive_list = Article.objects.distinct_date()
     #标签
     tag_list = Tag.objects.all()
+    search_form = SearchForm()
     #友情链接
     #根据文章评论数量进行排行
     comment_count_list = Comment.objects.values('article').annotate(comment_count=Count('article')).order_by('-comment_count')
@@ -46,10 +46,18 @@ def getpage(request,article_list):
 def index(request):
                    
     #最新文章显示并分页
-    article_list = Article.objects.all().order_by('-id')
-    articles = getpage(request,article_list)
-    return render(request,'blogs.html',locals())
-
+    if request.GET.get('search_value',None):
+        value = request.GET.get('search_value',None)
+        articles = Article.objects.filter(Q(title__icontains=value)|Q(content__icontains=value)
+                                              |Q(category__name=value)).order_by('-id')                        
+        if not articles:
+            return HttpResponse('没有相关文章')      
+        #articles = getpage(request,article_list)  
+        return render(request,'blogs.html',locals())
+    else:       
+        article_list = Article.objects.all().order_by('-id')
+        articles = getpage(request,article_list)
+        return render(request,'blogs.html',locals())
 
 def archive(request):
         
@@ -354,7 +362,6 @@ class ArticleList(generics.ListAPIView):
     
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    filter_backends = (DjangoFilterBackend,)
 
     def get_queryset(self):
         '''

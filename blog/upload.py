@@ -12,9 +12,11 @@ import datetime as dt
 def upload_image(request,dir_name):
     #{'error':1,'message':'出错信息'}
     #{'error':0,'url':'图片地址'}
-    print('upload_image')
+    #print('upload_image')
     result = {'error':1,'message':'上传出错'}
     files = request.FILES.get('imgFile',None)
+    print(type(files))
+    #获取上传文件数据
     if files:
         
         result = image_upload(files,dir_name)
@@ -27,6 +29,7 @@ def upload_generation_dir(dir_name):
     dir_name = dir_name + '/%d/%d/'%(today.year,today.month)
     if not os.path.exists(settings.MEDIA_ROOT+dir_name):
         os.makedirs(settings.MEDIA_ROOT+dir_name)
+    print('dir_name:%s'%dir_name)
     return dir_name
 
 #图片上传
@@ -40,9 +43,14 @@ def image_upload(files,dir_name):
     path = os.path.join(settings.MEDIA_ROOT,relative_path_file)
     if not os.path.exists(path):
         os.makedirs(path)
+    #图片路径拼接
     file_name=str(uuid.uuid1())+'.'+file_suffix
     path_file = os.path.join(path,file_name)
+    print('path_file:%s'%path_file)
+    #生成图片url
     file_url = settings.MEDIA_URL + relative_path_file + file_name
-    open(path_file,'wb').write(files.file.read())
+    print('file_url:%s'%file_url)
+    #open(path_file,'wb').write(files.file.read())
+    with open(path_file,'wb')as f:f.write(files.file.read())
     return {'error':0,'url':file_url}
     

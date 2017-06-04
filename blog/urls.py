@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^logout/$',do_logout,name='logout'),
     url(r'^reg/$',do_reg,name='reg'),
     url(r'^tag_article/$',tag_to_article,name='tag_article'),
-    
+    url(r'^admin/upload/(?P<dir_name>[^/]+)$',upload_image,name='upload_image'), 
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
 
@@ -37,12 +37,12 @@ urlpatterns += [
     url(r'^Articles/',ArticleList.as_view()),
     
 ]
-urlpatterns += [
-    url(r'^uploads/(?P<path>.*)$',\
-        'django.views.static.serve',\
-        {'document_root':settings.MEDIA_ROOT,}),
-    url(r'^admin/upload/(?P<dir_name>[^/]+)$',upload_image,name='upload_image')
-    ]
+if settings.DEBUG:
+	urlpatterns += [
+    		url(r'^uploads/(?P<path>.*)$',\
+        	'django.views.static.serve',\
+        	{'document_root':settings.MEDIA_ROOT,}),
+    		]
 '''
 article_list = ArticleViewSet.as_view({
     'get': 'list',

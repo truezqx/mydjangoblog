@@ -2,7 +2,7 @@
         <div class='comment'>
         	<p>评论：</p>
         	{% for comment in comment_list %}
-        	<p>{{ comment.username}}:{{ comment.content}}</p>
+        		<p>{{ comment.username}}:{{ comment.content}}</p>
         		{% for children_comment in comment.children_comment %}
         		<p>&nbsp;&nbsp;&nbsp;{{ comment.username}}:{{ children_comment.content }}</p>
         		{% endfor %}
