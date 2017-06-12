@@ -87,7 +87,7 @@ def article(request):
     except Article.DoesNotExist:
         return HttpResponse('没有这个文章')    
     
-    comment_form = CommentForm({'username':'匿名用户','article':id}if not request.user.is_authenticated()
+    comment_form = CommentForm({'username':'不愿透露姓名的围观群众','article':id}if not request.user.is_authenticated()
                                else{'username':request.user.username,'article':id})
     
     #获取评论
