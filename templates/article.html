@@ -15,29 +15,75 @@
         <article class="uk-article">
             <h2>{{ article.title }}</h2>
             <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d H:i:s' }}</p>
-	    <h6><p>标签:{% for tag in article.tag.all %}&nbsp;{{ tag.name }}&nbsp;{% endfor %}</p></h6>
-	    <hr/>
             <p>{{ article.content|safe }}</p>
-            <p><a href="{% url 'index' %}">继续逛逛.... <i class="uk-icon-angle-double-right"></i></a></p>
+            <p><a href="{% url 'index' %}">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
         </article>
         <p name='click_count'>点击次数:{{ article.click_count }}</p>
-        <p>分类:{{ article.category.name }}</p>
-        {% include 'comment.html' %}
+        <p>标签:{% for tag in article.tag.all %}{{ tag.name }}{% endfor %}</p><p>分类:{{ article.category.name }}</p>
+        <hr/>
+        <div class='comment'>
+        	<p>评论：</p>
+        	{% for comment in comment_list %}
+        	<div>
+        	<p>{{ comment.username}}:{{ comment.content}}</p>
+        		{% for children_comment in comment.children_comment %}
+        		<p>&nbsp;&nbsp;&nbsp;{{ comment.username}}:{{ children_comment.content }}</p>
+        		{% endfor %}
+        	</div>
+        	{% endfor %}
+        	
+        </div>
+		<hr/>
         {% if not request.user.is_authenticated %}
-        <div>还没登陆？也可以登陆后发表观点哦<a href="{% url 'login' %}">&nbsp;登录</a></div>
+        <div>还没登陆？可以登陆后发表观点哦<a href="{% url 'login' %}">&nbsp;登录</a></div>
         {% else %}
         <div><b>{{ request.user }}</b>,快来发表评论吧！</div>
         {% endif %}
-		<form action="{% url 'comment_post' %}" method="post">
+		<form id="comment_form" method="post">
 		{% csrf_token %}	
-			<p>{{ comment_form.comment_content }}</p>
-			<p>{{ comment_form.article }}</p>
-			<p>{{ comment_form.username }}</p>
-			<p><button type="submit">提交评论</button></p>		
+			<p><textarea rows="15" cols="70" id="content"></textarea></p>
+			<p><input type="hidden" id="article_id" value="{{ article.id }}"/></p>
+			<p><input type="hidden" id="username" value="{{ request.user }}"/></p>
+			<p><button type="button" id="submit" >提交评论</button></p>		
 		</form>
 
 
     </div>
+    <script type="text/javascript">
+		$(document).ready(function(){
+		$('#submit').on('click',function(){
+			//var ajax_load = "<p>safafaf</p>"
+			//var loadUrl = "http://127.0.0.1:8000/Articles/";
+			//var data = {value:"习近平"}
+			//$("#result").html(ajax_load).load(loadUrl);
+			//$.get(loadUrl,data,function(data,textStatus){
+				//alert(data[0].content)
+			//});
+			var content=$('#content').val();
+			var article_id=$('#article_id').val();
+			var username=$('#username').val();
+			$.ajax({
+				url:"{% url 'reply'%}",
+				
+				data:{
+					'content':content,
+					'article_id':article_id,
+					'username':username,
+				},
+				type:"POST",
+				dataType:"json",
+				success:function(data){
+					//alert(data[0].content)
+					//$('#content')[0].reset;
+					//var newcomment='<p>'+content+'</p>'
+					if(null !=data.content && "" !=data.content){
+					$('.comment').append('<div>'+'<p>'+data.username+':'+data.content+'</p>'+'</div>');
+					}
+				},
+			});
+		});
+	});
+	</script>
 
 
 	

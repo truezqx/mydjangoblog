@@ -16,7 +16,9 @@ from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
+import json
 # Create your views here.
+
 
 def global_setting(request):
     

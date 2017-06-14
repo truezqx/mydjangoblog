@@ -1,0 +1,44 @@
+{% extends '__base__.html' %}
+{% load myfilter %}
+{% block title %}博客{% endblock %}
+
+{% block beforehead %}
+
+<script>
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-3-4">
+        <article class="uk-article">
+            <h2>{{ article.title }}</h2>
+            <p class="uk-article-meta">发表于{{ article.date_publish |date:'Y-m-d H:i:s' }}</p>
+	    <h6><p>标签:{% for tag in article.tag.all %}&nbsp;{{ tag.name }}&nbsp;{% endfor %}</p></h6>
+	    <hr/>
+            <p>{{ article.content|safe }}</p>
+            <p><a href="{% url 'index' %}">继续逛逛.... <i class="uk-icon-angle-double-right"></i></a></p>
+        </article>
+        <p name='click_count'>点击次数:{{ article.click_count }}</p>
+        <p>分类:{{ article.category.name }}</p>
+        {% include 'comment.html' %}
+        {% if not request.user.is_authenticated %}
+        <div>还没登陆？也可以登陆后发表观点哦<a href="{% url 'login' %}">&nbsp;登录</a></div>
+        {% else %}
+        <div><b>{{ request.user }}</b>,快来发表评论吧！</div>
+        {% endif %}
+		<form action="{% url 'comment_post' %}" method="post">
+		{% csrf_token %}	
+			<p>{{ comment_form.comment_content }}</p>
+			<p>{{ comment_form.article }}</p>
+			<p>{{ comment_form.username }}</p>
+			<p><button type="submit">提交评论</button></p>		
+		</form>
+
+
+    </div>
+
+
+	
+{% endblock %}
