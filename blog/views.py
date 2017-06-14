@@ -31,6 +31,17 @@ def global_setting(request):
     article_comment_list = [Article.objects.get(pk=comment['article']) for comment in comment_count_list]
     return locals()
 
+
+def reply(request):
+    if request.is_ajax():
+        content=request.POST.get('content','')
+        username=request.POST.get('username','')
+        if username=='AnonymousUser':username='不愿透露姓名的围观群众'
+        article_id=request.POST.get('article_id','')
+        if content and article_id:
+            Comment.objects.create(content=content,article_id=article_id,username=username)
+    return HttpResponse(json.dumps({"content":content,"username":username,"article_id":article_id}))
+
 #分页
 def getpage(request,article_list):
     paginator = Paginator(article_list,3)   
