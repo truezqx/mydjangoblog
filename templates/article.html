@@ -41,7 +41,7 @@
         {% endif %}
 		<form id="comment_form" method="post">
 		{% csrf_token %}	
-			<p><textarea rows="15" cols="70" id="content"></textarea></p>
+			<p><textarea rows="15" cols="70" id="content"></textarea></p><span class="REERROR"></span>
 			<p><input type="hidden" id="article_id" value="{{ article.id }}"/></p>
 			<p><input type="hidden" id="username" value="{{ request.user }}"/></p>
 			<p><button type="button" id="submit" >提交评论</button></p>		
@@ -78,6 +78,8 @@
 					//var newcomment='<p>'+content+'</p>'
 					if(null !=data.content && "" !=data.content){
 					$('.comment').append('<div>'+'<p>'+data.username+':'+data.content+'</p>'+'</div>');
+					}else{
+					$('.REERROR').html('<font color="red">对不起,评论内容不能为空!</font>')
 					}
 				},
 			});
